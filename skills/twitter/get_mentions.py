@@ -31,7 +31,7 @@ class TwitterGetMentions(TwitterBaseTool):
     """
 
     name: str = "twitter_get_mentions"
-    description: str = "Get tweets that mention the authenticated user"
+    description: str = "Get tweets that mention you, the result is a list of json-formatted tweets. If the result is empty list, means no new mentions, don't retry."
     args_schema: Type[BaseModel] = TwitterGetMentionsInput
 
     async def _arun(self, config: RunnableConfig, **kwargs) -> list[Tweet]:
@@ -88,6 +88,8 @@ class TwitterGetMentions(TwitterBaseTool):
                 start_time=start_time,
                 expansions=[
                     "referenced_tweets.id",
+                    "referenced_tweets.id.attachments.media_keys",
+                    "referenced_tweets.id.author_id",
                     "attachments.media_keys",
                     "author_id",
                 ],
@@ -106,10 +108,8 @@ class TwitterGetMentions(TwitterBaseTool):
                     "location",
                     "connection_status",
                 ],
-                media_fields=["url"],
+                media_fields=["url", "type", "width", "height"],
             )
-
-            result = twitter.process_tweets_response(mentions)
 
             # Update since_id in store
             if mentions.get("meta") and mentions["meta"].get("newest_id"):
@@ -118,7 +118,7 @@ class TwitterGetMentions(TwitterBaseTool):
                     context.agent.id, self.name, "last", last
                 )
 
-            return result
+            return mentions
 
         except Exception as e:
             raise type(e)(f"[agent:{context.agent.id}]: {e}") from e
