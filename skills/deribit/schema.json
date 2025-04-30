@@ -1,0 +1,576 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "Deribit Skills",
+    "description": "Integration with Deribit API providing cryptocurrency market data, price information, and crypto news with rate limiting capabilities",
+    "x-icon": "https://ai.service.crestal.dev/skills/deribit/deribit.png",
+    "x-tags": [
+        "Trade",
+        "Finance"
+    ],
+    "x-api-key": "required",
+    "properties": {
+        "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "description": "Whether this skill is enabled",
+            "default": false
+        },
+        "client_id": {
+            "type": "string",
+            "title": "Deribit Client ID",
+            "x-link": "[Get your API key](https://www.deribit.com/account/BTC/api)",
+            "description": "Deribit Client ID for Credential"
+        },
+        "client_secret": {
+            "type": "string",
+            "title": "Deribit Client Secret",
+            "x-link": "[Get your API key](https://www.deribit.com/account/BTC/api)",
+            "x-sensitive": true,
+            "description": "Deribit Client Secret for Credential"
+        },
+        "environment": {
+            "type": "string",
+            "title": "Deribit Environment",
+            "enum": [
+                "development",
+                "production"
+            ],
+            "x-enum-title": [
+                "Development",
+                "Production"
+            ],
+            "default": "development",
+            "description": "Use 'development' for testing purposes (you must supply test credentials), and use 'production' when you're ready for live operations (ensure you use credentials for production)."
+        },
+        "rate_limit_number": {
+            "type": "integer",
+            "title": "Rate Limit Number",
+            "description": "Number of requests allowed per time window. Only applies if using an agent-specific API key."
+        },
+        "rate_limit_minutes": {
+            "type": "integer",
+            "title": "Rate Limit Minutes",
+            "description": "Time window in minutes for rate limiting. Only applies if using an agent-specific API key."
+        },
+        "states": {
+            "type": "object",
+            "properties": 
+            {
+                "get_book_summary_by_currency": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Get the summary information such as open interest, 24h volume, etc. for all instruments of a specific currency, optionally filtered by kind.",
+                    "default": "public"
+                },
+                "get_book_summary_by_instrument": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Get the summary information such as open interest, 24h volume, etc. for a specific instrument on Deribit.",
+                    "default": "public"
+                },
+                "get_expirations": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Get expirations for available instruments from Deribit.",
+                    "default": "public"
+                },
+                "get_funding_rate_value": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves interest rate value (funding rate) for requested period. Applicable only for PERPETUAL instruments.",
+                    "default": "public"
+                },
+                "get_historical_volatility": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Provides information about historical volatility for a given cryptocurrency.",
+                    "default": "public"
+                },
+                "get_index_price": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves the current index price value for a given index name.",
+                    "default": "public"
+                },
+                "get_instruments": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Get available trading instruments from Deribit.",
+                    "default": "public"
+                },
+                "get_last_trades_by_currency_and_time": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieve the latest trades that have occurred for instruments in a specific currency symbol and within a given time range.",
+                    "default": "public"
+                },
+                "get_last_trades_by_instrument": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieve the latest trades that have occurred for a specific instrument.",
+                    "default": "public"
+                },
+                "get_mark_price_history": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Public request for 5min history of markprice values for the instrument. Available only for a subset of options; other instruments return an empty list.",
+                    "default": "public"
+                },
+                "get_order_book_by_instrument_id": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves the order book, along with other market values for a given instrument ID.",
+                    "default": "public"
+                },
+                "get_order_book": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves the order book, along with other market values for a given instrument.",
+                    "default": "public"
+                },
+                "get_volatility_index_data": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Public market data request for volatility index candles.",
+                    "default": "public"
+                },
+                "get_contract_size": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves contract size of provided instrument.",
+                    "default": "public"
+                },
+                "get_currencies": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves all cryptocurrencies supported by the API.",
+                    "default": "public"
+                },
+                "get_delivery_prices": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves delivery prices for the given index.",
+                    "default": "public"
+                },
+                "get_funding_chart_data": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieve the list of the latest PERPETUAL funding chart points within a given time period (8h, 24h, 1m).",
+                    "default": "public"
+                },
+                "get_funding_rate_history": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves hourly historical interest rate (funding rate) for requested PERPETUAL instrument.",
+                    "default": "public"
+                },
+                "get_index_price_names": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves the identifiers of all supported Price Indexes.",
+                    "default": "public"
+                },
+                "get_index": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "(DEPRECATED) Retrieves the current index price for the instruments, for the selected currency. Prefer /public/get_index_price.",
+                    "default": "public"
+                },
+                "get_instrument": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves information about a specific instrument.",
+                    "default": "public"
+                },
+                "get_last_settlements_by_currency": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves historical settlement, delivery and bankruptcy events coming from all instruments within a given currency.",
+                    "default": "public"
+                },
+                "get_last_settlements_by_instrument": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves historical public settlement, delivery and bankruptcy events filtered by instrument name.",
+                    "default": "public"
+                },
+                "get_last_trades_by_currency": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieve the latest trades that have occurred for instruments in a specific currency symbol.",
+                    "default": "public"
+                },
+                "get_last_trades_by_instrument_and_time": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieve the latest trades that have occurred for a specific instrument and within a given time range.",
+                    "default": "public"
+                },
+                "get_rfqs": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieve active RFQs for instruments in given currency.",
+                    "default": "public"
+                },
+                "get_supported_index_names": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves the identifiers of all supported Price Indexes.",
+                    "default": "public"
+                },
+                "get_ticker": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Get ticker information for an instrument.",
+                    "default": "public"
+                },
+                "get_trade_volumes": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves aggregated 24h trade volumes for different instrument types and currencies. Optionally retrieves 7d and 30d volumes.",
+                    "default": "public"
+                },
+                "get_tradingview_chart_data": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Publicly available market data used to generate a TradingView candle chart.",
+                    "default": "public"
+                },
+                "get_time": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Retrieves the current time (in milliseconds). Useful for checking clock skew.",
+                    "default": "public"
+                },
+                "test": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Tests the connection to the API server and returns its version. Call this ONLY if other tools fail unexpectedly to diagnose connection issues.",
+                    "default": "public"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "disabled",
+                        "public",
+                        "private"
+                    ],
+                    "x-enum-title": [
+                        "Disabled",
+                        "Agent Owner + All Users",
+                        "Agent Owner Only"
+                    ],
+                    "description": "Method used to get information about locked currencies.",
+                    "default": "public"
+                }
+            },
+            "description": "States for each Deribit skill (disabled, public, or private)"
+        }
+    },
+    "required": [
+        "states",
+        "enabled"
+    ],
+    "if": {
+        "properties": {
+            "enabled": {
+                "const": true
+            }
+        }
+    },
+    "then": {
+        "required": [
+            "api_key"
+        ]
+    },
+    "additionalProperties": true
+}
