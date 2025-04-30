@@ -7,13 +7,11 @@ from pydantic import BaseModel, Field
 from skills.deribit.base import DeribitBaseTool
 
 # Updated import path for the response model
-from skills.deribit.market_data.optimized_response.get_trade_volumes import optimize_get_trade_volume_response
-from skills.deribit.market_data.response.get_trade_volumes_response import (
-    GetTradeVolumesResponse,
+from skills.deribit.market_data.optimized_response.get_trade_volumes import (
+    optimize_get_trade_volume_response,
 )
 
 # Import the formatting utility
-from skills.deribit.utils.format_json_result import format_json_result
 
 logger = logging.getLogger(__name__)
 
