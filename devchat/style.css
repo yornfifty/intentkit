@@ -1,0 +1,888 @@
+:root {
+    --primary-color: #cefe0e;
+    --primary-color-dark: #a5cc0b;
+    --background-dark: #121212;
+    --background-light: #f8f9fa;
+    --text-dark: #f1f1f1;
+    --text-light: #212529;
+    --surface-dark: #1e1e1e;
+    --surface-light: #ffffff;
+    --border-dark: #333333;
+    --border-light: #dee2e6;
+    --user-message-bg: #2a2a2a;
+    --agent-message-bg: #323232;
+    --skill-message-bg: #2d3748;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-light);
+    color: var(--text-light);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+body.dark-mode {
+    background-color: var(--background-dark);
+    color: var(--text-dark);
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 300px;
+    background-color: var(--surface-dark);
+    border-right: 1px solid var(--border-dark);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-dark);
+}
+
+.sidebar-header h1 {
+    color: var(--primary-color);
+    font-size: 24px;
+}
+
+.agents-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.agent-item {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    background-color: #252525;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.agent-item:hover {
+    background-color: #303030;
+    transform: translateY(-2px);
+}
+
+.agent-item.selected {
+    background-color: #353535;
+    border-left: 4px solid var(--primary-color);
+}
+
+.agent-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--text-dark);
+}
+
+.agent-description {
+    font-size: 0.8rem;
+    color: #aaa;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Chat Container Styles */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #1a1a1a;
+}
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-dark);
+    background-color: var(--surface-dark);
+}
+
+#current-agent {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.chat-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    background-color: var(--primary-color);
+    color: #000;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.btn:disabled {
+    background-color: #555;
+    color: #888;
+    cursor: not-allowed;
+}
+
+#chat-selector {
+    padding: 8px 15px;
+    border-radius: 8px;
+    background-color: #2a2a2a;
+    color: var(--text-dark);
+    border: 1px solid var(--border-dark);
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.welcome-message {
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    color: #aaa;
+}
+
+.message {
+    max-width: 85%;
+    margin-bottom: 15px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    word-wrap: break-word;
+}
+
+.message-user {
+    align-self: flex-end;
+    background-color: var(--user-message-bg);
+    border-bottom-right-radius: 4px;
+}
+
+.message-agent {
+    align-self: flex-start;
+    background-color: var(--agent-message-bg);
+    border-bottom-left-radius: 4px;
+}
+
+
+.message-content {
+    margin-bottom: 8px;
+}
+
+.message-meta {
+    font-size: 0.75rem;
+    color: #aaa;
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-attachment {
+    margin-top: 10px;
+    max-width: 100%;
+}
+
+.message-attachment img,
+.message-attachment video {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.message-attachment audio {
+    width: 100%;
+}
+
+.skill-call-button {
+    margin-top: 10px;
+    background-color: #2a2a2a;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.skill-call-button:hover {
+    background-color: #353535;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid var(--border-dark);
+    background-color: var(--surface-dark);
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-attachment {
+    cursor: pointer;
+}
+
+.attachment-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.attachment-label:hover {
+    color: var(--primary-color);
+}
+
+#message-input {
+    flex: 1;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border-dark);
+    background-color: #2a2a2a;
+    color: var(--text-dark);
+    resize: none;
+    min-height: 50px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#message-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+#send-button {
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    transition: all 0.3s ease;
+}
+
+#send-button:hover {
+    background-color: var(--primary-color-dark);
+    transform: scale(1.05);
+}
+
+#send-button:disabled {
+    background-color: #555;
+    color: #888;
+    cursor: not-allowed;
+}
+
+/* Loading indicator */
+.loading-indicator {
+    text-align: center;
+    padding: 20px;
+    color: #aaa;
+}
+
+.message-loading {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.loading-dots {
+    display: flex;
+}
+
+.loading-dots span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 3px;
+    border-radius: 50%;
+    background-color: #aaa;
+    animation: dot-pulse 1.5s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes dot-pulse {
+
+    0%,
+    100% {
+        transform: scale(0.7);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: var(--surface-dark);
+    padding: 25px;
+    /* Slightly more padding */
+    border-radius: 12px;
+    width: 90%;
+    /* Responsive width */
+    max-width: 700px;
+    /* Increase max-width slightly */
+    position: relative;
+    max-height: 85vh;
+    /* Limit height */
+    overflow-y: auto;
+    /* Allow scrolling for tall content */
+    border: 1px solid var(--border-dark);
+    /* Subtle border */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    /* Add shadow */
+}
+
+.skill-modal-content h2 {
+    margin-bottom: 20px;
+    /* Space below title */
+    color: var(--primary-color);
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.close-button:hover {
+    color: var(--primary-color);
+}
+
+.detail-row {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.detail-label {
+    font-weight: 600;
+    /* Slightly bolder label */
+    margin-right: 8px;
+    color: #bbb;
+    /* Less prominent label color */
+    display: inline-block;
+    min-width: 80px;
+    /* Align values slightly */
+}
+
+.detail-value {
+    word-break: break-word;
+    color: var(--text-dark);
+}
+
+.detail-label {
+    font-weight: bold;
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.detail-value {
+    word-break: break-word;
+}
+
+/* Styles for the new sections */
+.detail-section {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-dark);
+    /* Separator line */
+}
+
+/* No top border for the first section (Parameters) */
+#skill-call-details .detail-section:first-of-type {
+    margin-top: 15px;
+    padding-top: 0;
+    border-top: none;
+}
+
+.detail-section-header {
+    font-size: 1rem;
+    /* Slightly smaller header */
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.json-block,
+/* Targets the <pre> for parameters */
+.response-block pre
+
+/* Targets <pre> if used inside response block */
+    {
+    background-color: #1f1f1f;
+    /* Slightly darker background */
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    /* Subtle border */
+    overflow-x: auto;
+    /* Horizontal scroll if needed */
+    white-space: pre-wrap;
+    /* Wrap lines */
+    word-break: break-all;
+    /* Break long strings */
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    /* Monospace font */
+    font-size: 0.85rem;
+    /* Readable code size */
+    line-height: 1.5;
+    max-height: 250px;
+    /* Limit height and allow vertical scroll */
+    overflow-y: auto;
+    color: #d4d4d4;
+    /* Light text for code */
+}
+
+/* Styling for the response block when it contains plain text */
+.response-block div {
+    background-color: #282828;
+    padding: 12px 15px;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    /* Respect whitespace/newlines */
+    word-break: break-word;
+    /* Wrap normal words */
+    font-size: 0.9rem;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+/* Media Preview Area */
+.media-preview-block {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #252525;
+    /* Background for the preview area */
+    border-radius: 8px;
+    text-align: center;
+    /* Center the preview content */
+}
+
+.media-preview-block img,
+.media-preview-block video {
+    max-width: 100%;
+    /* Fit container width */
+    max-height: 350px;
+    /* Limit preview height */
+    height: auto;
+    /* Maintain aspect ratio */
+    border-radius: 6px;
+    /* Match other elements */
+    display: inline-block;
+    /* Allows centering */
+    vertical-align: middle;
+    /* Align nicely if text is next to it */
+    border: 1px solid var(--border-dark);
+    /* Subtle border */
+}
+
+.media-preview-block audio {
+    width: 100%;
+    /* Audio controls often look best full width */
+    max-width: 400px;
+    /* But constrain max width */
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 5px;
+}
+
+.media-preview-block a {
+    /* Style links if response is just a non-previewable URL */
+    display: block;
+    margin-top: 8px;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+pre {
+    background-color: #252525;
+    padding: 10px;
+    border-radius: 8px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+/* URL styling in messages */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* File display styles */
+.file-container {
+    border: 1px solid var(--border-dark);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #252525;
+}
+
+.file-container a {
+    display: block;
+    margin-top: 5px;
+}
+
+.file-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+.message-skill {
+    align-self: flex-start;
+    background-color: var(--skill-message-bg);
+    border-radius: 12px;
+    border-bottom-left-radius: 4px;
+    padding: 12px 16px;
+    margin-bottom: 15px;
+    max-width: 85%;
+    word-wrap: break-word;
+    color: var(--text-dark);
+}
+
+/* Container for skill buttons */
+.skill-button-container {
+    margin-top: 12px;
+    /* Add space between message content and the button group */
+    /* No flex needed, buttons will stack due to display: block below */
+}
+
+/* Style for skill buttons specifically within the container */
+.skill-button-container .skill-call-button {
+    display: block;
+    /* Make buttons stack vertically */
+    width: auto;
+    /* Allow button to size naturally to its content */
+    max-width: 95%;
+    /* Prevent button becoming excessively wide */
+    margin-left: 0;
+    /* Align buttons to the left within the bubble */
+    margin-right: auto;
+    /* Ensure left alignment works */
+    text-align: left;
+    /* Align text within the button to the left */
+    padding: 6px 12px;
+    /* Adjust padding for better appearance */
+    /* Inherit general button styles like background, color, border etc. */
+}
+
+/* Add space *between* stacked buttons */
+/* Use the adjacent sibling combinator (+) */
+.skill-button-container .skill-call-button+.skill-call-button {
+    margin-top: 6px;
+    /* Add space above the second, third, etc. buttons */
+}
+
+/* General .skill-call-button styles (ensure these exist or adjust) */
+.skill-call-button {
+    background-color: #3e4a5f;
+    /* Slightly different background for skill buttons */
+    color: var(--primary-color);
+    border: 1px solid #5a6a82;
+    /* Slightly softer border */
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.skill-call-button:hover {
+    background-color: #4a5a73;
+    border-color: var(--primary-color);
+}
+
+
+.skill-button-container {
+    margin-top: 12px;
+    /* Space above the button group */
+    /* No specific display needed here, children control layout */
+}
+
+/* Style for skill buttons specifically within the container */
+.skill-button-container .skill-call-button {
+    display: block;
+    /* <<< THIS MAKES BUTTONS STACK VERTICALLY (COLUMN) */
+    width: auto;
+    max-width: 95%;
+    margin-left: 0;
+    margin-right: auto;
+    text-align: left;
+    padding: 6px 12px;
+}
+
+/* Add space *between* stacked buttons */
+.skill-button-container .skill-call-button+.skill-call-button {
+    margin-top: 6px;
+    /* <<< THIS ADDS VERTICAL SPACE BETWEEN BUTTONS */
+}
+
+/* --- Markdown Content Styles --- */
+/* Add specific styles for elements generated by Markdown inside message bubbles */
+
+/* Paragraphs: Ensure some space between paragraphs */
+.message-content p {
+    margin-bottom: 0.75em;
+    /* Adjust as needed */
+}
+
+.message-content p:last-child {
+    margin-bottom: 0;
+    /* No extra space after the very last paragraph */
+}
+
+
+/* Lists (Unordered and Ordered) */
+.message-content ul,
+.message-content ol {
+    /* Restore indentation */
+    padding-left: 2em;
+    /* Use 'em' for relative sizing, adjust value (e.g., 40px) if preferred */
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
+    /* Ensure list bullets/numbers are shown (might be overridden by a reset) */
+    list-style: revert;
+    /* Try to revert to browser default */
+}
+
+.message-content li {
+    margin-bottom: 0.3em;
+    /* Space between list items */
+    /* If list-style: revert doesn't work, be more specific: */
+    /* list-style-type: disc; /* For ul */
+    /* list-style-type: decimal; /* For ol */
+}
+
+/* Nested Lists - Add more padding */
+.message-content ul ul,
+.message-content ol ol,
+.message-content ul ol,
+.message-content ol ul {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    padding-left: 1.5em;
+    /* Add further indentation for nested levels */
+}
+
+/* Code Blocks */
+.message-content pre {
+    background-color: #252525;
+    /* Match your existing code block style if any */
+    padding: 1em;
+    /* Add internal padding */
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
+    border-radius: 6px;
+    overflow-x: auto;
+    /* Allow horizontal scroll for long lines */
+    white-space: pre;
+    /* CRUCIAL: Preserve whitespace and line breaks from source */
+    word-wrap: normal;
+    /* Prevent wrapping inside pre */
+}
+
+.message-content pre code {
+    background-color: transparent;
+    /* Code tag inside pre shouldn't have its own bg */
+    padding: 0;
+    /* No padding needed here, pre handles it */
+    border-radius: 0;
+    /* No border radius needed here */
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    /* Monospace font */
+    font-size: 0.85rem;
+    /* Adjust size as needed */
+    white-space: pre;
+    /* Ensure whitespace is preserved here too */
+}
+
+/* Inline Code */
+.message-content code {
+    background-color: rgba(135, 131, 120, 0.15);
+    /* Subtle background for inline code */
+    color: #eb5757;
+    /* Example color, adjust to your theme */
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    border-radius: 3px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    /* Monospace font */
+}
+
+/* Ensure inline code within pre doesn't get the inline background/padding */
+.message-content pre code {
+    color: inherit;
+    /* Inherit color from pre */
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    /* Inherit size from pre */
+    border-radius: 0;
+}
+
+
+/* Blockquotes */
+.message-content blockquote {
+    margin-left: 1em;
+    /* Indentation */
+    padding-left: 1em;
+    /* Inner padding */
+    border-left: 3px solid var(--primary-color);
+    /* Left border */
+    color: #aaa;
+    /* Slightly different text color */
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
+}
+
+/* Prevent extra margin on paragraphs directly inside blockquotes if needed */
+.message-content blockquote p {
+    margin-bottom: 0.5em;
+}
+
+.message-content blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* Headers */
+.message-content h1,
+.message-content h2,
+.message-content h3,
+.message-content h4,
+.message-content h5,
+.message-content h6 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+    /* Make headers bolder */
+    line-height: 1.3;
+}
+
+.message-content h1 {
+    font-size: 1.8em;
+}
+
+.message-content h2 {
+    font-size: 1.5em;
+}
+
+.message-content h3 {
+    font-size: 1.3em;
+}
+
+.message-content h4 {
+    font-size: 1.1em;
+}
+
+.message-content h5 {
+    font-size: 1.0em;
+}
+
+.message-content h6 {
+    font-size: 0.9em;
+    color: #aaa;
+}
+
+/* Smaller, less prominent */
+
+
+/* Links (Already styled globally, but ensure they work within content) */
+.message-content a {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.message-content a:hover {
+    text-decoration: none;
+}
+
+/* Horizontal Rule */
+.message-content hr {
+    border: none;
+    border-top: 1px solid var(--border-dark);
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}

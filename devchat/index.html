@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dark-mode">
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>Agent Chat</h1>
+            </div>
+            <div class="agents-list" id="agents-list">
+                <!-- Agents will be loaded dynamically -->
+                <div class="loading-indicator">Loading agents...</div>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-header">
+                <div id="current-agent">Select an agent to start chatting</div>
+                <div class="chat-actions">
+                    <button id="new-chat-btn" class="btn" disabled>New Chat</button>
+                    <select id="chat-selector" disabled>
+                        <option value="">Select a chat</option>
+                    </select>
+                </div>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="welcome-message">
+                    <h2>Welcome to Agent Chat</h2>
+                    <p>Select an agent from the sidebar to start a conversation.</p>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <div class="chat-attachment">
+                    <label for="file-upload" class="attachment-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48">
+                            </path>
+                        </svg>
+                    </label>
+                    <input type="file" id="file-upload" hidden>
+                </div>
+                <textarea id="message-input" placeholder="Type your message..." disabled></textarea>
+                <button id="send-button" class="btn" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for server status -->
+    <div id="server-status-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Server Status</h2>
+            <p id="server-status-message">The server is currently offline. Please try again later.</p>
+        </div>
+    </div>
+
+    <!-- Modal for skill call details -->
+    <div id="skill-call-modal" class="modal">
+        <!-- Add a specific class for easier styling -->
+        <div class="modal-content skill-modal-content">
+            <span class="close-button">×</span>
+            <h2>Skill Call Details</h2>
+            <div id="skill-call-details">
+                <!-- Basic Info -->
+                <div class="detail-row">
+                    <span class="detail-label">ID:</span>
+                    <span id="skill-id" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Name:</span>
+                    <span id="skill-name" class="detail-value"></span>
+                </div>
+    
+                <!-- Parameters Section -->
+                <div class="detail-section">
+                    <h3 class="detail-section-header">Parameters:</h3>
+                    <pre id="skill-parameters" class="detail-value json-block"></pre>
+                </div>
+    
+                <!-- Response Text/JSON Section -->
+                <div class="detail-section">
+                    <h3 class="detail-section-header">Raw Response:</h3>
+                    <!-- This div will hold either plain text or a <pre> block for JSON -->
+                    <div id="skill-response-text" class="detail-value response-block"></div>
+                </div>
+    
+                <!-- Media Preview Section (Initially Hidden) -->
+                <div class="detail-section" id="skill-media-section" style="display: none;">
+                    <h3 class="detail-section-header">Media Preview:</h3>
+                    <div id="skill-response-media" class="detail-value media-preview-block">
+                        <!-- Media (img, video, audio) will be inserted here by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Markdown Parsing Library -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- HTML Sanitization Library -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.11/dist/purify.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
